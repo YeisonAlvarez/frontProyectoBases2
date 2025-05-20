@@ -1,0 +1,10 @@
+<h2>Eliminar Pregunta</h2>
+
+<form #f="ngForm" (ngSubmit)="eliminarPregunta()">
+  <label>ID Pregunta a eliminar:</label>
+  <input type="number" [(ngModel)]="idPreguntaEliminar" name="idEliminar" required />
+
+  <button type="submit" [disabled]="!f.valid">Eliminar</button>
+</form>
+
+<div *ngIf="mensaje">{{ mensaje }}</div>

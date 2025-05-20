@@ -1,0 +1,28 @@
+<app-menu></app-menu>
+
+<h2>Mis Exámenes</h2>
+
+<ul *ngIf="examenes.length > 0; else sinExamenes">
+  <li *ngFor="let e of examenes">
+    <strong>{{ e.nombre }}</strong> - {{ e.descripcion }}
+    <br />
+    <button (click)="verEstadisticas(e.id)">Ver estadísticas</button>
+    <hr />
+  </li>
+</ul>
+
+<ng-template #sinExamenes>
+  <p>No has creado exámenes aún.</p>
+</ng-template>
+
+<div *ngIf="estadisticas">
+  <h3>Estadísticas del examen ID {{ idSeleccionado }}</h3>
+  <ul>
+    <li>Promedio nota: {{ estadisticas.promedio }}</li>
+    <li>Máxima nota: {{ estadisticas.maxima }}</li>
+    <li>Mínima nota: {{ estadisticas.minima }}</li>
+    <li>Aprobados: {{ estadisticas.aprobados }}</li>
+    <li>Reprobados: {{ estadisticas.reprobados }}</li>
+    <li>Total presentados: {{ estadisticas.presentados }}</li>
+  </ul>
+</div>

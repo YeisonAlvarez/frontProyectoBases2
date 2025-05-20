@@ -1,0 +1,24 @@
+<h2>Presentando Examen: {{ examen?.nombre }}</h2>
+
+<form *ngIf="preguntas.length > 0">
+  <div *ngFor="let p of preguntas">
+    <p><strong>{{ p.texto }}</strong></p>
+
+    <div *ngFor="let op of p.opciones">
+      <label>
+        <input
+          type="radio"
+          name="pregunta_{{ p.id }}"
+          [value]="op.valor"
+          (change)="seleccionar(p.id, op.valor)" />
+        {{ op.texto }}
+      </label>
+    </div>
+
+    <hr />
+  </div>
+
+  <button type="button" (click)="enviar()">Enviar Examen</button>
+</form>
+
+<p *ngIf="preguntas.length === 0">Cargando preguntas...</p>

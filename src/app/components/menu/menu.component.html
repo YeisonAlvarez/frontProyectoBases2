@@ -1,0 +1,41 @@
+<!-- Barra superior fija -->
+<nav class="menu">
+  <strong>{{ usuario?.nombre }} ({{ usuario?.rol }})</strong>
+  <ul>
+    <li *ngIf="usuario?.rol === 'PROFESOR'">
+      <a routerLink="/profesor">Inicio Profesor</a>
+    </li>
+    <li *ngIf="usuario?.rol === 'ESTUDIANTE'">
+      <a routerLink="/estudiante">Inicio Estudiante</a>
+    </li>
+    <li><a href="#" (click)="logout()">Cerrar sesión</a></li>
+  </ul>
+</nav>
+
+<!-- Sidebar izquierdo según el rol -->
+<aside *ngIf="usuario?.rol === 'PROFESOR'" class="sidebar">
+  <ul>
+    <li><a routerLink="/profesor/crear-examen">+ Crear Examen</a></li>
+    <li>
+      <a href="#" (click)="toggleSubmenu($event)">+ Gestionar Preguntas</a>
+      <ul *ngIf="mostrarSubmenuPreguntas" class="submenu">
+        <li><a routerLink="/profesor/gestionar-preguntas/crear-pregunta">Crear</a></li>
+        <li><a routerLink="/profesor/gestionar-preguntas/eliminar-pregunta">Eliminar</a></li>
+      </ul>
+    </li>
+    <!-- Otras opciones del profesor -->
+  </ul>
+</aside>
+
+<aside *ngIf="usuario?.rol === 'ESTUDIANTE'" class="sidebar">
+  <ul>
+    <li><a routerLink="/estudiante/examenes-disponibles">Exámenes Disponibles</a></li>
+    <li><a routerLink="/estudiante/mis-resultados">Mis Resultados</a></li>
+    <!-- Otras opciones del estudiante -->
+  </ul>
+</aside>
+
+<!-- Contenido principal -->
+<main class="contenido-principal">
+  <router-outlet></router-outlet>
+</main>

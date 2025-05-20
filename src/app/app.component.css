@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  font-family: "Inter", sans-serif;
+  --bright-blue: oklch(51.01% 0.274 263.83);
+  --vivid-pink: oklch(69.02% 0.277 332.77);
+  --gray-900: oklch(19.37% 0.006 300.98);
+  --gray-700: oklch(36.98% 0.014 302.71);
+  --gradient-header: linear-gradient(
+    90deg,
+    var(--bright-blue),
+    var(--vivid-pink)
+  );
+}
+
+.header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: var(--gradient-header);
+  color: white;
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.05rem;
+}
+
+.header p {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.main {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

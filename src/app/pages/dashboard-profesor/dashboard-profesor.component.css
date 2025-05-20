@@ -1,0 +1,6 @@
+.main-content {
+  margin-top: 70px;      /* espacio para el menú superior */
+  margin-left: 240px;    /* espacio para el sidebar */
+  padding: 30px;
+  box-sizing: border-box;
+}

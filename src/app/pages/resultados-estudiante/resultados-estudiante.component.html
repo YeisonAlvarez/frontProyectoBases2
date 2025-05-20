@@ -1,0 +1,28 @@
+<app-menu></app-menu>
+<h2>Mis Resultados</h2>
+
+<table *ngIf="resultados.length > 0; else noResultados">
+  <thead>
+  <tr>
+    <th>Examen</th>
+    <th>Nota</th>
+    <th>Fecha</th>
+    <th>Tiempo</th>
+    <th>IP</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let r of resultados">
+    <td>{{ r.nombreExamen }}</td>
+    <td>{{ r.notaTotal }}</td>
+    <td>{{ r.fecha | date: 'short' }}</td>
+    <td>{{ r.tiempoEmpleado }} min</td>
+    <td>{{ r.ipOrigen }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #noResultados>
+  <p>No has presentado ningún examen aún.</p>
+</ng-template>
+

@@ -1,0 +1,91 @@
+<h2>Crear Pregunta</h2>
+
+<div *ngIf="mensaje" [ngClass]="{ 'alerta-exito': tipoMensaje === 'exito', 'alerta-error': tipoMensaje === 'error' }" class="alerta">
+  {{ mensaje }}
+</div>
+
+<form #f="ngForm" (ngSubmit)="crearPreguntaYOpciones()">
+  <label>Texto:</label>
+  <input [(ngModel)]="pregunta.texto" name="texto" required />
+
+  <label>Tipo:</label>
+  <select [(ngModel)]="pregunta.tipo" name="tipo">
+    <option value="SELECCION_UNICA">Selección única</option>
+    <option value="SELECCION_MULTIPLE">Selección múltiple</option>
+  </select>
+
+  <label>Dificultad:</label>
+  <select [(ngModel)]="pregunta.dificultad" name="dificultad">
+    <option value="FACIL">Fácil</option>
+    <option value="MEDIA">Media</option>
+    <option value="DIFICIL">Difícil</option>
+  </select>
+
+  <label>Porcentaje:</label>
+  <input type="number" [(ngModel)]="pregunta.porcentaje" name="porcentaje" />
+
+  <label>Tiempo límite (segundos):</label>
+  <input type="number" [(ngModel)]="pregunta.tiempoLimite" name="tiempoLimite" />
+
+  <label>¿Pregunta pública?</label>
+  <select [(ngModel)]="pregunta.esPublica" name="esPublica">
+    <option value="S">Sí</option>
+    <option value="N">No</option>
+  </select>
+
+  <label>ID Tema:</label>
+  <input type="number" [(ngModel)]="pregunta.idTema" name="idTema" />
+
+  <label>
+    <input type="checkbox" [(ngModel)]="tieneSubpreguntas" name="tieneSubpreguntas" />
+    ¿Tiene subpreguntas?
+  </label>
+
+  <!-- Opciones -->
+  <div *ngIf="!tieneSubpreguntas">
+    <h3>Opciones</h3>
+    <div *ngFor="let op of opciones; let i = index">
+      <label>Opción {{ i + 1 }}:</label>
+      <input [(ngModel)]="opciones[i].texto" [name]="'texto' + i" />
+
+      <label>
+        <input type="checkbox" [(ngModel)]="opciones[i].esCorrecta" [name]="'correcta' + i" />
+        Correcta
+      </label>
+    </div>
+  </div>
+
+  <!-- Subpreguntas -->
+  <div *ngIf="tieneSubpreguntas">
+    <h3>Subpreguntas</h3>
+    <button type="button" (click)="agregarSubpregunta()">Agregar subpregunta</button>
+
+    <div *ngFor="let sp of subpreguntasCreadas; let i = index">
+      <label>Texto:</label>
+      <input [(ngModel)]="sp.texto" [name]="'subtexto' + i" />
+
+      <label>Porcentaje:</label>
+      <input type="number" [(ngModel)]="sp.porcentaje" [name]="'subporcentaje' + i" />
+
+      <h4>Opciones</h4>
+      <div *ngFor="let op of sp.opciones; let j = index">
+        <label>Opción {{ j + 1 }}:</label>
+        <input [(ngModel)]="op.texto" [name]="'subopTexto' + i + '_' + j" />
+
+        <label>
+          <input type="checkbox" [(ngModel)]="op.esCorrecta" [name]="'subopCorrecta' + i + '_' + j" />
+          Correcta
+        </label>
+      </div>
+      <button type="button" (click)="agregarOpcionASubpregunta(i)">Agregar opción</button>
+    </div>
+
+    <p *ngIf="porcentajeTotalSubpreguntas !== 100" style="color: red;">
+      ⚠️ El porcentaje total es {{ porcentajeTotalSubpreguntas }}%. Debe sumar 100%.
+    </p>
+  </div>
+
+  <button type="submit" [disabled]="!f.valid">Crear</button>
+</form>
+
+<div *ngIf="mensaje">{{ mensaje }}</div>

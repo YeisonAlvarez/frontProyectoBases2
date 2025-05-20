@@ -1,0 +1,17 @@
+<app-menu></app-menu>
+<h2>Exámenes Disponibles</h2>
+
+<ul *ngIf="examenes.length > 0; else sinExamenes">
+  <li *ngFor="let e of examenes">
+    <strong>{{ e.nombre }}</strong> - {{ e.descripcion }}
+    <br />
+    <a [routerLink]="['/estudiante/examen', e.id]">
+      <button>Presentar</button>
+    </a>
+    <hr />
+  </li>
+</ul>
+
+<ng-template #sinExamenes>
+  <p>No tienes exámenes disponibles en este momento.</p>
+</ng-template>

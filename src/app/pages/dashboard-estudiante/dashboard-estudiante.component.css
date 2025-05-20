@@ -1,0 +1,7 @@
+.main-content {
+  margin-top: 70px;        /* espacio para el menú superior */
+  margin-left: 240px;      /* espacio para el sidebar */
+  padding: 30px;
+  box-sizing: border-box;
+  min-height: 100vh;       /* asegura que el fondo crezca según contenido */
+}

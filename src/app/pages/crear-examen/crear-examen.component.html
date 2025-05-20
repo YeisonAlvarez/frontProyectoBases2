@@ -1,0 +1,31 @@
+<h2>Crear Examen</h2>
+
+<form #f="ngForm" (ngSubmit)="crear()">
+  <label>Nombre:</label>
+  <input [(ngModel)]="examen.nombre" name="nombre" required />
+
+  <label>Descripción:</label>
+  <input [(ngModel)]="examen.descripcion" name="descripcion" />
+
+  <label>Categoría:</label>
+  <input [(ngModel)]="examen.categoria" name="categoria" />
+
+  <label>Total preguntas banco:</label>
+  <input type="number" [(ngModel)]="examen.totalPreguntasBanco" name="totalBanco" />
+
+  <label>Total preguntas por estudiante:</label>
+  <input type="number" [(ngModel)]="examen.totalPreguntasExamen" name="totalExamen" />
+
+  <label>Duración (min):</label>
+  <input type="number" [(ngModel)]="examen.duracionMinutos" name="duracion" />
+
+  <label>Fecha de inicio:</label>
+  <input type="datetime-local" [(ngModel)]="examen.fechaInicio" name="fechaInicio" />
+
+  <label>Fecha de fin:</label>
+  <input type="datetime-local" [(ngModel)]="examen.fechaFin" name="fechaFin" />
+
+  <button type="submit" [disabled]="!f.valid">Crear</button>
+</form>
+
+<div *ngIf="mensaje">{{ mensaje }}</div>
