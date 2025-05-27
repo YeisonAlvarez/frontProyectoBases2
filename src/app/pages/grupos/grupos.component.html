@@ -1,0 +1,98 @@
+<div class="grupos-crud">
+  <div class="back-button-container">
+    <a routerLink="/profesor" class="btn-secondary">
+      <i class="btn-icon">←</i> Volver al Dashboard
+    </a>
+  </div>
+  <div class="header-section">
+    <h2>Gestión de Grupos</h2>
+    <div class="mensaje-container">
+      <div class="mensaje" [ngClass]="tipoMensaje" *ngIf="mensaje">{{ mensaje }}</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="form-section">
+      <div class="card">
+        <form (ngSubmit)="crearGrupo()" *ngIf="!modoEdicion" class="form-grupo">
+          <div class="form-header">
+            <h3>Crear nuevo grupo</h3>
+          </div>
+          <div class="form-body">
+            <div class="form-group">
+              <label for="nombre">Nombre del grupo</label>
+              <input type="text" id="nombre" [(ngModel)]="nuevoGrupo.nombre" name="nombre" placeholder="Ingrese el nombre del grupo" required>
+            </div>
+            <div class="form-group">
+              <label for="idCurso">Curso</label>
+              <select id="idCurso" [(ngModel)]="nuevoGrupo.idCurso" name="idCurso" required>
+                <option value="" disabled selected>Seleccione un curso</option>
+                <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-footer">
+            <button type="submit" class="btn-primary">Crear Grupo</button>
+          </div>
+        </form>
+
+        <form (ngSubmit)="actualizarGrupo()" *ngIf="modoEdicion" class="form-grupo">
+          <div class="form-header">
+            <h3>Editar grupo</h3>
+          </div>
+          <div class="form-body">
+            <div class="form-group">
+              <label for="nombreEdit">Nombre del grupo</label>
+              <input type="text" id="nombreEdit" [(ngModel)]="grupoSeleccionado!.nombre" name="nombreEdit" placeholder="Ingrese el nombre del grupo" required>
+            </div>
+            <div class="form-group">
+              <label for="idCursoEdit">Curso</label>
+              <select id="idCursoEdit" [(ngModel)]="grupoSeleccionado!.idCurso" name="idCursoEdit" required>
+                <option value="" disabled>Seleccione un curso</option>
+                <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-footer">
+            <button type="submit" class="btn-primary">Actualizar</button>
+            <button type="button" class="btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <div class="card">
+        <div class="table-header">
+          <h3>Lista de Grupos</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="tabla-grupos">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Curso</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let grupo of grupos">
+                <td>{{ grupo.id }}</td>
+                <td>{{ grupo.nombre }}</td>
+                <td>{{ grupo.nombreCurso || 'Curso no encontrado' }}</td>
+                <td class="actions-column">
+                  <button class="btn-edit" (click)="seleccionarGrupo(grupo)">Editar</button>
+                  <button class="btn-delete" (click)="eliminarGrupo(grupo.id)">Eliminar</button>
+                </td>
+              </tr>
+              <tr *ngIf="grupos.length === 0">
+                <td colspan="4" class="no-data">No hay grupos disponibles</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

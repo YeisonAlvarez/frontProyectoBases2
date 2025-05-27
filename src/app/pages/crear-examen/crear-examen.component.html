@@ -1,100 +1,152 @@
-<h2>Crear Examen</h2>
+<div class="crear-examen-container">
+  <div class="back-button-container">
+    <a routerLink="/profesor" class="btn-secondary">
+      <i class="btn-icon">←</i> Volver al Dashboard
+    </a>
+  </div>
+  <h2 class="page-title">Crear Examen</h2>
 
-<form #f="ngForm" (ngSubmit)="crear()" *ngIf="usuario && usuario.rol === 'PROFESOR'">
-  <label>Nombre:</label>
-  <input [(ngModel)]="examen.nombre" name="nombre" required />
+  <form #f="ngForm" (ngSubmit)="crear()" *ngIf="usuario && usuario.rol === 'PROFESOR'" class="examen-form">
+    <div class="card">
+      <div class="card-header">
+        <h3>Información General</h3>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input id="nombre" [(ngModel)]="examen.nombre" name="nombre" required placeholder="Nombre del examen" />
+        </div>
 
-  <label>Descripción:</label>
-  <input [(ngModel)]="examen.descripcion" name="descripcion" />
+        <div class="form-group">
+          <label for="descripcion">Descripción:</label>
+          <input id="descripcion" [(ngModel)]="examen.descripcion" name="descripcion" placeholder="Descripción breve del examen" />
+        </div>
 
-  <label>Tema:</label>
-  <select [(ngModel)]="examen.idTema" name="idTema" (change)="cargarPreguntasBanco()" required>
-    <option value="" disabled selected>-- Seleccione un tema --</option>
-    <option *ngFor="let t of temas" [value]="t.id">{{ t.nombre }}</option>
-  </select>
+        <div class="form-group">
+          <label for="idTema">Tema:</label>
+          <select id="idTema" [(ngModel)]="examen.idTema" name="idTema" (change)="cargarPreguntasBanco()" required>
+            <option value="" disabled selected>-- Seleccione un tema --</option>
+            <option *ngFor="let t of temas" [value]="t.id">{{ t.nombre }}</option>
+          </select>
+        </div>
 
-  <label>Total preguntas banco:</label>
-  <input
-    type="number"
-    [(ngModel)]="examen.totalPreguntasBanco"
-    name="totalBanco"
-    min="1"
-    required
-    (change)="cargarPreguntasBanco()"
-  />
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="totalBanco">Total preguntas banco:</label>
+            <input
+              id="totalBanco"
+              type="number"
+              [(ngModel)]="examen.totalPreguntasBanco"
+              name="totalBanco"
+              min="1"
+              required
+              (change)="cargarPreguntasBanco()"
+            />
+          </div>
 
-  <label>Total preguntas por estudiante:</label>
-  <input
-    type="number"
-    [(ngModel)]="examen.totalPreguntasExamen"
-    name="totalExamen"
-    min="1"
-    required
-  />
+          <div class="form-group half-width">
+            <label for="totalExamen">Total preguntas por estudiante:</label>
+            <input
+              id="totalExamen"
+              type="number"
+              [(ngModel)]="examen.totalPreguntasExamen"
+              name="totalExamen"
+              min="1"
+              required
+            />
+          </div>
+        </div>
 
-  <label>Duración (min):</label>
-  <input type="number" [(ngModel)]="examen.duracionMinutos" name="duracion" min="1" required />
+        <div class="form-group">
+          <label for="duracion">Duración (minutos):</label>
+          <input id="duracion" type="number" [(ngModel)]="examen.duracionMinutos" name="duracion" min="1" required />
+        </div>
 
-  <label>Fecha de inicio:</label>
-  <input type="datetime-local" [(ngModel)]="examen.fechaInicio" name="fechaInicio" required />
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input id="fechaInicio" type="datetime-local" [(ngModel)]="examen.fechaInicio" name="fechaInicio" required />
+          </div>
 
-  <label>Fecha de fin:</label>
-  <input type="datetime-local" [(ngModel)]="examen.fechaFin" name="fechaFin" required />
-
-  <h3>Banco de preguntas (tema seleccionado)</h3>
-  <p>Selecciona hasta {{ examen.totalPreguntasExamen }} preguntas:</p>
-
-  <div *ngIf="preguntasBanco.length === 0">No hay preguntas disponibles para el tema seleccionado.</div>
-
-  <div *ngFor="let p of preguntasBanco">
-    <label>
-      <input
-        type="checkbox"
-        #chk
-        [checked]="esPreguntaSeleccionada(p.id)"
-        (change)="togglePreguntaSeleccionada(p)"
-        [disabled]="deshabilitarCheckbox(p)"
-      />
-      {{ p.texto }}
-    </label>
-
-    <div *ngIf="esPreguntaSeleccionada(p.id)">
-      <label>Porcentaje:</label>
-      <span>{{ obtenerPorcentaje(p.id) }}%</span>
+          <div class="form-group half-width">
+            <label for="fechaFin">Fecha de fin:</label>
+            <input id="fechaFin" type="datetime-local" [(ngModel)]="examen.fechaFin" name="fechaFin" required />
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
+    <div class="card">
+      <div class="card-header">
+        <h3>Banco de preguntas</h3>
+      </div>
+      <div class="card-body">
+        <p class="instructions">Selecciona hasta {{ examen.totalPreguntasExamen }} preguntas:</p>
 
-  <h3>Asignar a grupos</h3>
-  <p>Selecciona uno o varios grupos a los que deseas asignar este examen:</p>
+        <div class="empty-message" *ngIf="preguntasBanco.length === 0">
+          <i class="empty-icon">📝</i>
+          <p>No hay preguntas disponibles para el tema seleccionado.</p>
+        </div>
 
-  <div *ngIf="grupos.length === 0">No hay grupos disponibles.</div>
+        <div class="checkbox-list">
+          <div class="checkbox-item" *ngFor="let p of preguntasBanco">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                #chk
+                [checked]="preguntasSeleccionadas.includes(p.id)"
+                (change)="togglePreguntaSeleccionada(p.id, chk.checked)"
+                [disabled]="
+                !preguntasSeleccionadas.includes(p.id) &&
+                preguntasSeleccionadas.length >= examen.totalPreguntasExamen
+              "
+              />
+              <span class="checkbox-text">{{ p.texto }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div *ngFor="let grupo of grupos">
-    <label>
-      <input
-        type="checkbox"
-        #chk
-        [checked]="gruposSeleccionados.includes(grupo.id)"
-        (change)="toggleGrupoSeleccionado(grupo.id, chk.checked)"
-      />
-      {{ grupo.nombre }}
-    </label>
+    <div class="card">
+      <div class="card-header">
+        <h3>Asignar a grupos</h3>
+      </div>
+      <div class="card-body">
+        <p class="instructions">Selecciona uno o varios grupos a los que deseas asignar este examen:</p>
 
-  </div>
-  <div *ngIf="porcentajeTotal !== 100 && preguntasSeleccionadas.length > 0" style="color: red;">
-    La suma de los porcentajes debe ser exactamente 100%. Actualmente: {{ porcentajeTotal }}%
-  </div>
+        <div class="empty-message" *ngIf="grupos.length === 0">
+          <i class="empty-icon">👥</i>
+          <p>No hay grupos disponibles.</p>
+        </div>
 
-  <button
-    type="submit"
-    [disabled]="
-    !f.valid ||
-    preguntasSeleccionadas.length !== examen.totalPreguntasExamen ||
-    porcentajeTotal !== 100
-  "
-  >
-    Crear
-  </button>
+        <div class="checkbox-list">
+          <div class="checkbox-item" *ngFor="let grupo of grupos">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                #chk
+                [checked]="gruposSeleccionados.includes(grupo.id)"
+                (change)="toggleGrupoSeleccionado(grupo.id, chk.checked)"
+              />
+              <span class="checkbox-text">{{ grupo.nombre }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
 
-</form>
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="
+          !f.valid || preguntasSeleccionadas.length !== examen.totalPreguntasExamen
+        "
+        [ngClass]="{'btn-disabled': !f.valid || preguntasSeleccionadas.length !== examen.totalPreguntasExamen}"
+      >
+        <i class="btn-icon">✓</i> Crear Examen
+      </button>
+    </div>
+  </form>
+</div>

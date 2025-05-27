@@ -1,6 +1,67 @@
 <app-menu></app-menu>
 
-<div class="main-content">
-  <h1>Bienvenido Profesor {{ usuario?.nombre }}</h1>
-  <p>Este es tu panel de control. Aquí podrás crear exámenes, ver estadísticas y gestionar preguntas.</p>
+<div class="dashboard-container">
+  <h2 class="page-title">Bienvenido Profesor {{ usuario?.nombre }}</h2>
+
+  <div class="dashboard-intro">
+    <p>Este es tu panel de control. Aquí podrás crear exámenes, ver estadísticas y gestionar preguntas.</p>
+  </div>
+
+  <div class="dashboard-cards">
+    <div class="card">
+      <div class="card-header">
+        <h3>Crear Examen</h3>
+      </div>
+      <div class="card-body">
+        <p>Crea nuevos exámenes para tus estudiantes con preguntas personalizadas.</p>
+        <div class="card-actions">
+          <a routerLink="/profesor/crear-examen" class="btn-primary">
+            <i class="btn-icon">📝</i> Crear examen
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Mis Exámenes</h3>
+      </div>
+      <div class="card-body">
+        <p>Revisa los exámenes que has creado y consulta las estadísticas de resultados.</p>
+        <div class="card-actions">
+          <a routerLink="/profesor/mis-examenes" class="btn-primary">
+            <i class="btn-icon">📊</i> Ver exámenes
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Gestionar Preguntas</h3>
+      </div>
+      <div class="card-body">
+        <p>Crea, edita y elimina preguntas para tus bancos de preguntas.</p>
+        <div class="card-actions">
+          <a routerLink="/profesor/gestionar-preguntas" class="btn-primary">
+            <i class="btn-icon">❓</i> Gestionar preguntas
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Gestionar Grupos</h3>
+      </div>
+      <div class="card-body">
+        <p>Administra los grupos de estudiantes para asignar exámenes.</p>
+        <div class="card-actions">
+          <a routerLink="/profesor/grupos" class="btn-primary">
+            <i class="btn-icon">👥</i> Gestionar grupos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

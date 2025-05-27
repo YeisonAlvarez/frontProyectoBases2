@@ -34,15 +34,6 @@ interface Respuesta {
   respuestaTexto: string;
 }
 
-interface ExamenConEstado {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  presentado: boolean;
-}
-
-
-
 @Component({
   selector: 'app-presentar-examen',
   standalone: true,
@@ -52,8 +43,7 @@ interface ExamenConEstado {
 })
 export class PresentarExamenComponent {
   usuario: any;
-  examenes: Examen[] = []; // Exámenes normales (sin estado)
-  examenesConEstado: ExamenConEstado[] = []; // Exámenes con estado "presentado"
+  examenes: Examen[] = [];
   examen?: Examen;
   preguntas: Pregunta[] = [];
   respuestas: Respuesta[] = [];
@@ -65,21 +55,14 @@ export class PresentarExamenComponent {
     this.usuario = userData ? JSON.parse(userData) : null;
 
     if (this.usuario) {
-      // Obtener exámenes con estado
-      this.http.get<ExamenConEstado[]>(
-        `http://localhost:8080/api/examenes/disponibles-con-estado/${this.usuario.id}`
-      ).subscribe((estadoData) => {
-        this.examenesConEstado = estadoData;
-      });
-
-      // Obtener exámenes disponibles
-      this.http.get<Examen[]>(
-        `http://localhost:8080/api/examenes/disponibles/${this.usuario.id}`
-      ).subscribe((examenesDisponibles) => {
-        this.examenes = examenesDisponibles;
-      });
+      this.http
+        .get<Examen[]>(`http://localhost:8080/api/examenes/disponibles/${this.usuario.id}`)
+        .subscribe((data) => {
+          this.examenes = data;
+        });
     }
 
+    // Verifica si viene el ID de examen en la URL (opcional)
     const idExamen = this.route.snapshot.paramMap.get('id');
     if (idExamen) {
       this.cargarExamenConPreguntas(+idExamen);
@@ -164,11 +147,4 @@ export class PresentarExamenComponent {
       confirmButtonText: 'Aceptar'
     });
   }
-
-  examenFuePresentado(idExamen: number): boolean {
-    return this.examenesConEstado.some(e => e.id === idExamen && e.presentado);
-  }
-
-
-
 }

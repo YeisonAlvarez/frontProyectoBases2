@@ -1,0 +1,42 @@
+<div class="admin-estudiantes-grupo-container">
+  <h2>Administrar Estudiantes en Grupos</h2>
+
+  <div class="mensaje" [ngClass]="tipoMensaje" *ngIf="mensaje">{{ mensaje }}</div>
+
+  <div class="grupos-lista">
+    <label for="grupoSelect">Selecciona un grupo:</label>
+    <select id="grupoSelect" [(ngModel)]="grupoSeleccionado" (change)="seleccionarGrupo(grupoSeleccionado)">
+      <option *ngFor="let grupo of grupos" [ngValue]="grupo">{{ grupo.nombre }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="grupoSeleccionado">
+    <h3>Estudiantes del grupo: {{ grupoSeleccionado.nombre }}</h3>
+    <table class="tabla-estudiantes">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let estudiante of estudiantes">
+          <td>{{ estudiante.id }}</td>
+          <td>{{ estudiante.nombre }}</td>
+          <td>{{ estudiante.correo }}</td>
+          <td>
+            <button (click)="eliminarEstudiante(estudiante.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="asignar-estudiante">
+      <h4>Asignar estudiante al grupo</h4>
+      <input type="number" [(ngModel)]="nuevoEstudianteId" placeholder="ID del estudiante">
+      <button (click)="asignarEstudiante()">Asignar</button>
+    </div>
+  </div>
+</div>
