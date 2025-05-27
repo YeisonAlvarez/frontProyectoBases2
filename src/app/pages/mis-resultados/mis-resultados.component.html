@@ -1,0 +1,28 @@
+<h2>Mis Resultados de Exámenes</h2>
+
+<div *ngIf="errorCargando" class="error">
+  No se pudieron cargar los resultados, intenta más tarde.
+</div>
+
+<table class="tabla-resultados" *ngIf="resultados.length > 0; else sinResultados" cellpadding="10">
+  <thead>
+  <tr>
+    <th>Examen</th>
+    <th>Correctas</th>
+    <th>Incorrectas</th>
+    <th>Calificación</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let resultado of resultados">
+    <td>{{ resultado.nombreExamen }}</td>
+    <td>{{ resultado.respuestasCorrectas }}</td>
+    <td>{{ resultado.respuestasIncorrectas }}</td>
+    <td>{{ resultado.calificacion | number:'1.2-2' }}</td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #sinResultados>
+  <p>No has presentado exámenes aún.</p>
+</ng-template>

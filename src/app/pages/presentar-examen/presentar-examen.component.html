@@ -1,24 +1,73 @@
-<h2>Presentando Examen: {{ examen?.nombre }}</h2>
+<div class="form">
+  <h2>Exámenes disponibles</h2>
 
-<form *ngIf="preguntas.length > 0">
-  <div *ngFor="let p of preguntas">
-    <p><strong>{{ p.texto }}</strong></p>
+  <ng-container *ngIf="examenes.length > 0; else sinExamenes">
+    <div *ngFor="let ex of examenes" class="examen-card-horizontal">
+      <div class="examen-info">
+        <h3>{{ ex.nombre }}</h3>
+        <p><strong>Descripción:</strong> {{ ex.descripcion }}</p>
+      </div>
+      <button
+        type="button"
+        [disabled]="examenFuePresentado(ex.id)"
+        (click)="presentar(ex)">
+        {{ examenFuePresentado(ex.id) ? 'Ya presentado' : 'Presentar' }}
+      </button>
+    </div>
+  </ng-container>
 
-    <div *ngFor="let op of p.opciones">
-      <label>
-        <input
-          type="radio"
-          name="pregunta_{{ p.id }}"
-          [value]="op.valor"
-          (change)="seleccionar(p.id, op.valor)" />
-        {{ op.texto }}
-      </label>
+  <ng-template #sinExamenes>
+    <p style="text-align: center;">No hay exámenes disponibles.</p>
+  </ng-template>
+</div>
+
+<!-- Formulario para presentar examen -->
+<div *ngIf="examen" class="form">
+  <h2 *ngIf="examen">Presentando Examen: {{ examen.nombre }}</h2>
+
+  <form *ngIf="preguntas.length > 0; else cargandoPreguntas">
+    <div *ngFor="let p of preguntas" class="pregunta-container" style="margin-bottom: 1.5rem;">
+      <label><strong>{{ p.texto }}</strong></label>
+
+      <!-- Opciones pregunta principal -->
+      <div *ngFor="let op of p.opciones" style="margin-left: 1rem;">
+        <label>
+          <input
+            type="radio"
+            name="pregunta_{{ p.id }}"
+            [value]="op.id"
+            (change)="seleccionar(p.id, op.id)" />
+          {{ op.texto }}
+        </label>
+      </div>
+
+      <!-- Subpreguntas -->
+      <div *ngIf="p.subpreguntas && p.subpreguntas.length > 0" class="subpreguntas-...">
+        <div *ngFor="let sp of p.subpreguntas" class="subpregunta-box" style="margin-bottom: 1rem;">
+          <label><strong>↳ {{ sp.texto }}</strong></label>
+
+          <div *ngFor="let op of sp.opciones" style="margin-left: 1rem;">
+            <label>
+              <input
+                type="radio"
+                name="subpregunta_{{ sp.id }}"
+                [value]="op.id"
+                (change)="seleccionar(sp.id, op.id)" />
+              {{ op.texto }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <hr />
     </div>
 
-    <hr />
-  </div>
+    <div style="text-align: center; margin-top: 1rem;">
+      <button type="button" class="btn-accion" (click)="enviar()">Enviar Examen</button>
+    </div>
+  </form>
 
-  <button type="button" (click)="enviar()">Enviar Examen</button>
-</form>
-
-<p *ngIf="preguntas.length === 0">Cargando preguntas...</p>
+  <ng-template #cargandoPreguntas>
+    <p style="text-align: center;">Cargando preguntas...</p>
+  </ng-template>
+</div>

@@ -7,7 +7,8 @@ import { MenuComponent } from '../../components/menu/menu.component';
   selector: 'app-resultados-estudiante',
   standalone: true,
   imports: [CommonModule, MenuComponent],
-  templateUrl: './resultados-estudiante.component.html'
+  templateUrl: './resultados-estudiante.component.html',
+  styleUrls: ['./resultados-estudiante.component.css'],
 })
 export class ResultadosEstudianteComponent {
   usuario: any;

@@ -33,8 +33,11 @@
     <option value="N">No</option>
   </select>
 
-  <label>ID Tema:</label>
-  <input type="number" [(ngModel)]="pregunta.idTema" name="idTema" />
+  <label>Tema:</label>
+  <select [(ngModel)]="pregunta.idTema" name="idTema" required>
+    <option value="" disabled selected>Seleccione un tema</option>
+    <option *ngFor="let tema of temas" [value]="tema.id">{{ tema.nombre }}</option>
+  </select>
 
   <label>
     <input type="checkbox" [(ngModel)]="tieneSubpreguntas" name="tieneSubpreguntas" />
@@ -44,46 +47,72 @@
   <!-- Opciones -->
   <div *ngIf="!tieneSubpreguntas">
     <h3>Opciones</h3>
-    <div *ngFor="let op of opciones; let i = index">
-      <label>Opción {{ i + 1 }}:</label>
-      <input [(ngModel)]="opciones[i].texto" [name]="'texto' + i" />
+    <div *ngFor="let op of opciones; let i = index" class="opcion">
+      <label>Opción {{ i + 1 }}: </label>
+      <input [(ngModel)]="opciones[i].texto" [name]="'texto' + i" style="width: 50%;" />
 
       <label>
-        <input type="checkbox" [(ngModel)]="opciones[i].esCorrecta" [name]="'correcta' + i" />
+        <input
+          type="checkbox"
+          [(ngModel)]="opciones[i].esCorrecta"
+          [name]="'correcta' + i"
+          (change)="actualizarSeleccionUnica(i)"
+        />
         Correcta
       </label>
     </div>
   </div>
 
+
   <!-- Subpreguntas -->
-  <div *ngIf="tieneSubpreguntas">
+  <div *ngIf="tieneSubpreguntas" style="margin-top: 2rem;">
     <h3>Subpreguntas</h3>
-    <button type="button" (click)="agregarSubpregunta()">Agregar subpregunta</button>
+    <button type="button" (click)="agregarSubpregunta()" style="margin-bottom: 1rem;">Agregar subpregunta</button>
 
-    <div *ngFor="let sp of subpreguntasCreadas; let i = index">
-      <label>Texto:</label>
-      <input [(ngModel)]="sp.texto" [name]="'subtexto' + i" />
+    <div *ngFor="let sp of subpreguntasCreadas; let i = index" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1.5rem; border-radius: 8px;">
+      <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+        <label style="width: 100px;">Texto:</label>
+        <input [(ngModel)]="sp.texto" [name]="'subtexto' + i" style="width: 80%;" />
+      </div>
 
-      <label>Porcentaje:</label>
-      <input type="number" [(ngModel)]="sp.porcentaje" [name]="'subporcentaje' + i" />
+      <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <label style="width: 100px;">Porcentaje:</label>
+        <input type="number" [(ngModel)]="sp.porcentaje" [name]="'subporcentaje' + i" style="width: 10%;" />
+      </div>
 
-      <h4>Opciones</h4>
-      <div *ngFor="let op of sp.opciones; let j = index">
-        <label>Opción {{ j + 1 }}:</label>
-        <input [(ngModel)]="op.texto" [name]="'subopTexto' + i + '_' + j" />
+      <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <label style="width: 100px;">Tipo:</label>
+        <select [(ngModel)]="sp.tipo" [name]="'subtipo' + i" style="width: 40%;">
+          <option value="SELECCION_UNICA">Selección única</option>
+          <option value="SELECCION_MULTIPLE">Selección múltiple</option>
+        </select>
+      </div>
+
+      <h4 style="margin-top: 1rem;">Opciones</h4>
+      <div *ngFor="let op of sp.opciones; let j = index" style="margin-bottom: 1rem;">
+        <label>Opción {{ j + 1 }}: </label>
+        <input [(ngModel)]="op.texto" [name]="'subopTexto' + i + '_' + j" style="width: 50%; margin-right: 1rem;" />
 
         <label>
-          <input type="checkbox" [(ngModel)]="op.esCorrecta" [name]="'subopCorrecta' + i + '_' + j" />
+          <input
+            type="checkbox"
+            [(ngModel)]="op.esCorrecta"
+            [name]="'subopCorrecta' + i + '_' + j"
+            (change)="actualizarSeleccionUnicaSub(i, j)"
+          />
           Correcta
         </label>
       </div>
+
+
       <button type="button" (click)="agregarOpcionASubpregunta(i)">Agregar opción</button>
     </div>
 
-    <p *ngIf="porcentajeTotalSubpreguntas !== 100" style="color: red;">
+    <p *ngIf="porcentajeTotalSubpreguntas !== 100" style="color: red; font-weight: bold;">
       ⚠️ El porcentaje total es {{ porcentajeTotalSubpreguntas }}%. Debe sumar 100%.
     </p>
   </div>
+
 
   <button type="submit" [disabled]="!f.valid">Crear</button>
 </form>

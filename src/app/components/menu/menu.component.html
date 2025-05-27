@@ -21,15 +21,17 @@
       <ul *ngIf="mostrarSubmenuPreguntas" class="submenu">
         <li><a routerLink="/profesor/gestionar-preguntas/crear-pregunta">Crear</a></li>
         <li><a routerLink="/profesor/gestionar-preguntas/eliminar-pregunta">Eliminar</a></li>
+
       </ul>
     </li>
+    <li><a routerLink="/profesor/banco-preguntas">+ Banco de Preguntas</a></li>
     <!-- Otras opciones del profesor -->
   </ul>
 </aside>
 
 <aside *ngIf="usuario?.rol === 'ESTUDIANTE'" class="sidebar">
   <ul>
-    <li><a routerLink="/estudiante/examenes-disponibles">Exámenes Disponibles</a></li>
+    <li><a routerLink="/estudiante/presentar-examen">Exámenes Disponibles</a></li>
     <li><a routerLink="/estudiante/mis-resultados">Mis Resultados</a></li>
     <!-- Otras opciones del estudiante -->
   </ul>
