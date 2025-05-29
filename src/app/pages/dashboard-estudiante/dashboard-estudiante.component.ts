@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MenuComponent } from '../../components/menu/menu.component';
 
 @Component({
   selector: 'app-dashboard-estudiante',
   standalone: true,
-  imports: [CommonModule, MenuComponent],  // Aquí se agrega MenuComponent
-  templateUrl: './dashboard-estudiante.component.html'
+  imports: [CommonModule, RouterModule, MenuComponent],  // Agregamos RouterModule para los enlaces
+  templateUrl: './dashboard-estudiante.component.html',
+  styleUrls: ['./dashboard-estudiante.component.css']
 })
 export class DashboardEstudianteComponent {
   usuario: any;

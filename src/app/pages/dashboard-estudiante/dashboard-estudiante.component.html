@@ -1,6 +1,39 @@
 <app-menu></app-menu>
-<h2>Bienvenido Estudiante {{ usuario?.nombre }}</h2>
-<p>Desde aquí podrás presentar tus exámenes y revisar tus resultados.</p>
-<a routerLink="/estudiante/examenes">Ver exámenes disponibles</a>
-<a routerLink="/estudiante/resultados">Ver resultados de exámenes</a>
 
+<div class="dashboard-container">
+  <h2 class="page-title">Bienvenido Estudiante {{ usuario?.nombre }}</h2>
+
+  <div class="dashboard-intro">
+    <p>Desde aquí podrás presentar tus exámenes y revisar tus resultados.</p>
+  </div>
+
+  <div class="dashboard-cards">
+    <div class="card">
+      <div class="card-header">
+        <h3>Exámenes Disponibles</h3>
+      </div>
+      <div class="card-body">
+        <p>Accede a todos los exámenes que tienes pendientes por presentar.</p>
+        <div class="card-actions">
+          <a routerLink="/estudiante/examenes" class="btn-primary">
+            <i class="btn-icon">📝</i> Ver exámenes
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Mis Resultados</h3>
+      </div>
+      <div class="card-body">
+        <p>Consulta las calificaciones de los exámenes que has presentado.</p>
+        <div class="card-actions">
+          <a routerLink="/estudiante/resultados" class="btn-primary">
+            <i class="btn-icon">📊</i> Ver resultados
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import {MenuComponent} from '../../../components/menu/menu.component';
 import {CommonModule, NgForOf, NgIf} from '@angular/common';
 import Swal from 'sweetalert2';
 

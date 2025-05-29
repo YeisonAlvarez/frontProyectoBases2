@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import {MenuComponent} from '../../../components/menu/menu.component';
 
 @Component({
   selector: 'app-eliminar-pregunta',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, MenuComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './eliminar-pregunta.component.html',
   styleUrls: ['./eliminar-pregunta.component.css']
 })

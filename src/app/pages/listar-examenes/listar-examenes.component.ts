@@ -8,7 +8,8 @@ import { MenuComponent } from '../../components/menu/menu.component';
   selector: 'app-listar-examenes',
   standalone: true,
   imports: [CommonModule, RouterModule, MenuComponent],
-  templateUrl: './listar-examenes.component.html'
+  templateUrl: './listar-examenes.component.html',
+  styleUrls: ['./listar-examenes.component.css']
 })
 export class ListarExamenesComponent {
   usuario: any;

@@ -1,4 +1,11 @@
 <app-menu></app-menu>
+
+<div class="back-button-container">
+  <a routerLink="/estudiante" class="btn-secondary">
+    <i class="btn-icon">←</i> Volver al Dashboard
+  </a>
+</div>
+
 <h2>Mis Resultados</h2>
 
 <table *ngIf="resultados.length > 0; else noResultados">
@@ -25,4 +32,3 @@
 <ng-template #noResultados>
   <p>No has presentado ningún examen aún.</p>
 </ng-template>
-

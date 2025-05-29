@@ -10,7 +10,8 @@ import Swal from 'sweetalert2';
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgClass
   ],
   templateUrl: './crear-examen.component.html',
   styleUrls: ['./crear-examen.component.css'],
@@ -36,7 +37,7 @@ export class CrearExamenComponent {
 
   temas: any[] = [];
   preguntasBanco: any[] = [];
-  preguntasSeleccionadas: { idPregunta: number, porcentaje: number }[] = [];
+  preguntasSeleccionadas: number[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -95,32 +96,19 @@ export class CrearExamenComponent {
       });
   }
 
-  togglePreguntaSeleccionada(pregunta: any) {
-    const { id, porcentaje } = pregunta;
-
-    if (this.esPreguntaSeleccionada(id)) {
-      this.preguntasSeleccionadas = this.preguntasSeleccionadas.filter(p => p.idPregunta !== id);
-    } else {
-      const totalActual = this.porcentajeTotal;
-      if (
-        this.preguntasSeleccionadas.length < this.examen.totalPreguntasExamen &&
-        totalActual + porcentaje <= 100
-      ) {
-        this.preguntasSeleccionadas.push({ idPregunta: id, porcentaje });
-      } else {
-        this.mostrarMensaje('No se puede seleccionar esta pregunta: se excede el 100% de porcentaje o el límite de preguntas.', 'error');
+  togglePreguntaSeleccionada(idPregunta: number, seleccionado: boolean) {
+    if (seleccionado) {
+      if (this.preguntasSeleccionadas.length < this.examen.totalPreguntasExamen) {
+        this.preguntasSeleccionadas.push(idPregunta);
       }
+    } else {
+      this.preguntasSeleccionadas = this.preguntasSeleccionadas.filter((id) => id !== idPregunta);
     }
   }
 
   crear() {
     if (this.preguntasSeleccionadas.length !== this.examen.totalPreguntasExamen) {
       this.mostrarMensaje(`Debes seleccionar exactamente ${this.examen.totalPreguntasExamen} preguntas.`, 'error');
-      return;
-    }
-
-    if (this.porcentajeTotal !== 100) {
-      this.mostrarMensaje(`La suma de los porcentajes asignados debe ser exactamente 100%.`, 'error');
       return;
     }
 
@@ -140,11 +128,11 @@ export class CrearExamenComponent {
     this.http.post<number>('http://localhost:8080/api/examenes', examenPayload).subscribe({
       next: (idExamen) => {
         // Asignar preguntas seleccionadas
-        const asignaciones = this.preguntasSeleccionadas.map(({ idPregunta, porcentaje }) => {
+        const asignaciones = this.preguntasSeleccionadas.map((idPregunta) => {
           const epPayload = {
             idExamen,
             idPregunta,
-            porcentaje,
+            porcentaje: 100 / this.preguntasSeleccionadas.length,
           };
           return this.http.post('http://localhost:8080/api/examenes/preguntas', epPayload, { responseType: 'text' }).toPromise();
         });
@@ -206,36 +194,5 @@ export class CrearExamenComponent {
     } else {
       this.gruposSeleccionados = this.gruposSeleccionados.filter(id => id !== idGrupo);
     }
-  }
-
-  get porcentajeTotal(): number {
-    return this.preguntasSeleccionadas.reduce((acc, p) => acc + p.porcentaje, 0);
-  }
-
-  actualizarPorcentaje(idPregunta: number, nuevoPorcentaje: number) {
-    const index = this.preguntasSeleccionadas.findIndex(p => p.idPregunta === idPregunta);
-    if (index !== -1) {
-      this.preguntasSeleccionadas[index].porcentaje = nuevoPorcentaje;
-    }
-  }
-
-  // Verifica si una pregunta está seleccionada
-  esPreguntaSeleccionada(idPregunta: number): boolean {
-    return this.preguntasSeleccionadas.some(p => p.idPregunta === idPregunta);
-  }
-
-// Devuelve el porcentaje de una pregunta seleccionada
-  obtenerPorcentaje(idPregunta: number): number {
-    const preg = this.preguntasSeleccionadas.find(p => p.idPregunta === idPregunta);
-    return preg ? preg.porcentaje : 0;
-  }
-
-// Verifica si se debe deshabilitar la selección de otra pregunta
-  deshabilitarCheckbox(pregunta: any): boolean {
-    const yaSeleccionada = this.esPreguntaSeleccionada(pregunta.id);
-    const excedePorcentaje = this.porcentajeTotal + pregunta.porcentaje > 100;
-    const excedeCantidad = this.preguntasSeleccionadas.length >= this.examen.totalPreguntasExamen;
-
-    return !yaSeleccionada && (excedePorcentaje || excedeCantidad);
   }
 }

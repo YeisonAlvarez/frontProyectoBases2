@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { BancoPreguntasComponent } from '../banco-preguntas/banco-preguntas.component';
-
 
 @Component({
   selector: 'app-dashboard-profesor',
   standalone: true,
-  imports: [
-    CommonModule,
-    MenuComponent,
-    BancoPreguntasComponent // 👈 Importación del nuevo componente
-  ],
-  templateUrl: './dashboard-profesor.component.html'
+  imports: [CommonModule, RouterModule, MenuComponent],
+  templateUrl: './dashboard-profesor.component.html',
+  styleUrls: ['./dashboard-profesor.component.css']
 })
 export class DashboardProfesorComponent {
   usuario: any;

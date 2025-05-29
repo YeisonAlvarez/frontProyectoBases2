@@ -1,6 +1,246 @@
-.main-content {
-  margin-top: 70px;      /* espacio para el menú superior */
-  margin-left: 240px;    /* espacio para el sidebar */
-  padding: 30px;
-  box-sizing: border-box;
+/* Variables para colores consistentes */
+:root {
+  --primary-color: #1976d2;
+  --primary-dark: #1565c0;
+  --primary-light: #bbdefb;
+  --secondary-color: #f5f5f5;
+  --text-color: #2c3e50;
+  --border-color: #e0e0e0;
+  --success-color: #388e3c;
+  --success-bg: #e8f5e9;
+  --error-color: #d32f2f;
+  --error-bg: #ffebee;
+  --warning-color: #f57c00;
+  --warning-bg: #fff3e0;
+  --info-color: #0288d1;
+  --info-bg: #e1f5fe;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* Estilos generales */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos horizontalmente */
+  margin-right: 0; /* Elimina el margen derecho para desplazar hacia la derecha */
+  margin-left: auto; /* Empuja el contenedor hacia la derecha */
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: var(--text-color);
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.dashboard-intro {
+  text-align: center;
+  margin-bottom: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dashboard-intro p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* Estilos de tarjetas */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+  width: 95%; /* Ancho ajustado para mejor visualización */
+  justify-content: center; /* Centra las tarjetas en el contenedor */
+  align-self: flex-end; /* Alinea el contenedor de tarjetas hacia la derecha */
+  margin-right: 20px; /* Margen derecho para evitar que toque el borde */
+}
+
+.card {
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra más pronunciada para mejor visibilidad */
+  overflow: hidden;
+  transition: var(--transition);
+  border: 2px solid var(--border-color); /* Borde más grueso */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Asegura posicionamiento correcto */
+  z-index: 1; /* Previene solapamiento de estilos */
+  margin: 10px; /* Espacio adicional entre tarjetas */
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Sombra más pronunciada al pasar el mouse */
+  transform: translateY(-5px);
+  border-color: var(--primary-light); /* Cambia el color del borde al pasar el mouse */
+  z-index: 2; /* Asegura que la tarjeta esté por encima de las demás al pasar el mouse */
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 18px 20px; /* Padding aumentado para mayor visibilidad */
+  border-bottom: 4px solid var(--primary-dark); /* Borde inferior más grueso */
+  text-align: center; /* Asegura que el contenido esté centrado */
+  position: relative; /* Para posicionamiento de elementos internos */
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 22px; /* Tamaño de fuente aumentado */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Sombra de texto para mejor legibilidad */
+}
+
+.card-body {
+  padding: 30px 25px; /* Padding vertical aumentado */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa; /* Fondo ligeramente diferente para mejor contraste */
+  border-top: 1px solid rgba(0,0,0,0.05); /* Separación sutil del header */
+}
+
+.card-body p {
+  margin-top: 0;
+  margin-bottom: 25px; /* Mayor espacio antes del botón */
+  font-size: 16px;
+  line-height: 1.6; /* Interlineado aumentado para mejor legibilidad */
+  flex-grow: 1;
+  color: #333; /* Color de texto más oscuro para mejor contraste */
+  text-align: center; /* Texto centrado */
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px; /* Espacio adicional en la parte inferior */
+}
+
+/* Estilos para botones */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border: none;
+  padding: 16px 32px; /* Padding aumentado para botones más grandes */
+  font-size: 17px; /* Tamaño de fuente ligeramente mayor */
+  font-weight: 600;
+  border-radius: 10px; /* Bordes más redondeados */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  min-width: 180px; /* Ancho mínimo para consistencia */
+  text-align: center; /* Asegura que el texto esté centrado */
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px); /* Elevación ligeramente mayor */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el mouse */
+  text-decoration: none;
+  letter-spacing: 0.6px; /* Ligero espaciado de letras al pasar el mouse */
+}
+
+.btn-primary:active {
+  transform: translateY(1px); /* Ligero movimiento hacia abajo al hacer clic */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Sombra reducida al hacer clic */
+  background-color: #0d5aa7; /* Color ligeramente más oscuro al hacer clic */
+  transition: all 0.1s ease; /* Transición más rápida para el estado activo */
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn-primary:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(100, 100);
+    opacity: 0;
+  }
+}
+
+/* Icono para botones */
+.btn-icon {
+  margin-right: 8px;
+  font-style: normal;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0 15px;
+    margin: 20px auto;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .dashboard-intro p {
+    font-size: 16px;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
 }

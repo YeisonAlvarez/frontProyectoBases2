@@ -1,0 +1,154 @@
+/* Global Button Styles for Sistema Examenes Frontend */
+
+/* Base button styles */
+button {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Button states */
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background-color: #b0bec5 !important;
+  color: #ffffff !important;
+}
+
+/* Ripple effect for all buttons */
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+button:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(100, 100);
+    opacity: 0;
+  }
+}
+
+/* Button types based on actions */
+
+/* Primary buttons (create, submit) */
+.btn-primary, button[type="submit"]:not(.btn-danger):not(.btn-warning):not(.btn-info) {
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+  padding: 14px 28px;
+  font-size: 16px;
+}
+
+.btn-primary:hover, button[type="submit"]:not(.btn-danger):not(.btn-warning):not(.btn-info):hover {
+  background-color: #1565c0;
+}
+
+/* Secondary buttons (cancel, back) */
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: #2c3e50;
+  border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+  background-color: #d5d5d5;
+}
+
+/* Success buttons (confirm, save) */
+.btn-success, .btn-accion {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-success:hover, .btn-accion:hover {
+  background-color: #43a047;
+}
+
+/* Danger buttons (delete, remove) */
+.btn-danger, .btn-delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-danger:hover, .btn-delete:hover {
+  background-color: #e53935;
+}
+
+/* Warning buttons (caution actions) */
+.btn-warning {
+  background-color: #ff9800;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #f57c00;
+}
+
+/* Info buttons (view, details) */
+.btn-info, .btn-edit {
+  background-color: #673ab7;
+  color: white;
+}
+
+.btn-info:hover, .btn-edit:hover {
+  background-color: #5e35b1;
+}
+
+/* Icon in buttons */
+.btn-icon {
+  margin-right: 8px;
+  font-style: normal;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  button[type="submit"], .btn-primary {
+    padding: 12px 24px;
+  }
+}

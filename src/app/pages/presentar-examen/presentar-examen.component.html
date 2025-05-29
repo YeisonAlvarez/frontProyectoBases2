@@ -1,3 +1,9 @@
+<div class="back-button-container">
+  <a routerLink="/estudiante" class="btn-secondary">
+    <i class="btn-icon">←</i> Volver al Dashboard
+  </a>
+</div>
+
 <div class="form">
   <h2>Exámenes disponibles</h2>
 
@@ -7,12 +13,7 @@
         <h3>{{ ex.nombre }}</h3>
         <p><strong>Descripción:</strong> {{ ex.descripcion }}</p>
       </div>
-      <button
-        type="button"
-        [disabled]="examenFuePresentado(ex.id)"
-        (click)="presentar(ex)">
-        {{ examenFuePresentado(ex.id) ? 'Ya presentado' : 'Presentar' }}
-      </button>
+      <button type="button" (click)="presentar(ex)">Presentar</button>
     </div>
   </ng-container>
 
@@ -64,8 +65,7 @@
 
     <div style="text-align: center; margin-top: 1rem;">
       <button type="button" class="btn-accion" (click)="enviar()">Enviar Examen</button>
-    </div>
-  </form>
+    </div>  </form>
 
   <ng-template #cargandoPreguntas>
     <p style="text-align: center;">Cargando preguntas...</p>
